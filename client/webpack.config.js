@@ -50,8 +50,7 @@ module.exports = () => {
           },
         ],
       }),
-      new MiniCssExtractPlugin(),
-      new WorkboxPlugin.GenerateSW()
+      new MiniCssExtractPlugin()
     ],
 
     module: {
