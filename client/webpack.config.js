@@ -14,7 +14,10 @@ module.exports = () => {
     mode: 'development',
     entry: {
       main: './src/js/index.js',
-      install: './src/js/install.js'
+      install: './src/js/install.js',
+      database: './src/js/database.js',
+      editor: './src/js/editor.js',
+      header: './src/js/header.js'
     },
     output: {
       filename: '[name].bundle.js',
@@ -25,12 +28,20 @@ module.exports = () => {
         template: './index.html',
         title: 'Webpack Plugin',
       }),
+      new InjectManifest({
+        swSrc: './service-worker.js',
+        swDest: 'service-worker.js',
+      }),
       new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
         name: 'Text-Editor-PWA-Model',
         short_name: 'TextEd',
         description: 'A text editor built to be a progressive web application',
         background_color: '#ffffff',
         theme_color: '#31a9e1',
+        start_url: '/',
+        publicPath: '/',
         icons: [
           {
             src: path.resolve('src/images/icon.png'),
@@ -38,10 +49,6 @@ module.exports = () => {
             destination: path.join('assets', 'icons'),
           },
         ],
-      }),
-      new InjectManifest({
-        swSrc: './src/service-worker.js',
-        swDest: 'service-worker.js',
       }),
       new MiniCssExtractPlugin(),
       new WorkboxPlugin.GenerateSW()
